@@ -143,7 +143,7 @@ exports.createNewTree = async (req, res) => {
 exports.getTreeDetailsById = async (req, res) => {
   const { id } = req.params;
   try {
-    const tree = await Tree.findById(id);
+    const tree = await Tree.findOne({ id: parseInt(id) }); // 👈 Match by custom `id` key
     if (!tree) {
       return res.status(200).json({ statusCode: 401, error: "DATA NOT Found", status: false });
     }
@@ -156,7 +156,7 @@ exports.getTreeDetailsById = async (req, res) => {
 // GET only treename and id
 exports.getOnlyTreeNameandId = async (req, res) => {
   try {
-    const trees = await Tree.find({}, { treename: 1 }); // Only return name and _id
+    const trees = await Tree.find({}, { treename: 1,id:1 }); // Only return name and _id
     if (!trees.length) {
       return res.status(200).json({ statusCode: 401, error: "DATA NOT Found", Data: [], status: false });
     }
